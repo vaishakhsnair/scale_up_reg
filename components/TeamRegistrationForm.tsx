@@ -58,11 +58,10 @@ export default function TeamRegistrationForm() {
 
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
-    // Simulate API call
+
     await new Promise((resolve) => setTimeout(resolve, 2000));
     console.log(data);
     setIsLoading(false);
-    // Handle form submission here
   };
 
   return (
@@ -282,7 +281,7 @@ export default function TeamRegistrationForm() {
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r font-semibold from-primary-blue via-primary-purple to-primary-blue hover:opacity-90 transition-opacity animate-gradient-x"
+                className="w-full bg-gradient-to-r font-semibold from-primary-blue/60 via-primary-purple to-primary-blue/60 hover:opacity-90 transition-opacity animate-gradient-x"
                 disabled={isLoading}
               >
                 {isLoading ? (
