@@ -76,7 +76,7 @@ export default function TeamRegistrationForm() {
       >
         <Card className="bg-black/30 backdrop-blur-xl border-primary-blue/20 shadow-lg shadow-primary-purple/10">
           <CardHeader>
-            <CardTitle className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-blue via-primary-purple to-primary-blue animate-gradient-x">
+            <CardTitle className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#639BF2] via-[#982dca] to-[#639BF2] animate-gradient-x">
               Team Registration
             </CardTitle>
             <CardDescription className="text-gray-300">
@@ -187,7 +187,7 @@ export default function TeamRegistrationForm() {
                             <SelectTrigger className="bg-white/5 border-white/10 text-white">
                               <SelectValue placeholder="Select year" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="bg-[#f9fcff09] backdrop-blur-md border-[#4d415296]  text-white">
                               {yearOptions.map((year) => (
                                 <SelectItem key={year} value={year}>
                                   {year}
@@ -231,7 +231,7 @@ export default function TeamRegistrationForm() {
                         type="button"
                         variant="destructive"
                         onClick={() => remove(index)}
-                        className="w-full"
+                        className="w-full border-red-500 text-primary-red/50 font-semibold text-red-500 bg-red-500/10 hover:bg-red-500/20"
                       >
                         <Trash2 className="w-4 h-4 mr-2" />
                         Remove Member
@@ -245,7 +245,7 @@ export default function TeamRegistrationForm() {
                 <Button
                   type="button"
                   onClick={() => append({} as TeamMember)}
-                  className="w-full bg-primary-blue/20 hover:bg-primary-blue/30 text-primary-blue"
+                  className="w-full bg-primary-blue/20 hover:bg-primary-blue/30  font-semibold text-[#98bed8]"
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   Add Team Member
@@ -271,7 +271,7 @@ export default function TeamRegistrationForm() {
                         "File size must be less than 2MB",
                     },
                   })}
-                  className="bg-white/5 border-white/10 text-white file:bg-primary-blue file:text-white file:border-0 file:rounded-md file:px-4 file:py-2 hover:file:bg-primary-purple transition-colors"
+                  className="bg-white/5 h-16 border-white/10 text-white pt-4 file:bg-primary-blue file:text-white file:border-0 file:rounded-md file:px-4 file:py-2 hover:file:bg-primary-purple transition-all  cursor-pointer duration-200"
                 />
                 {errors.abstract && (
                   <p className="text-red-500 text-sm">
@@ -282,7 +282,7 @@ export default function TeamRegistrationForm() {
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-primary-blue via-primary-purple to-primary-blue hover:opacity-90 transition-opacity animate-gradient-x"
+                className="w-full bg-gradient-to-r font-semibold from-primary-blue via-primary-purple to-primary-blue hover:opacity-90 transition-opacity animate-gradient-x"
                 disabled={isLoading}
               >
                 {isLoading ? (
