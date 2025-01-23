@@ -58,6 +58,7 @@ export default {
       },
       animation: {
         "gradient-x": "gradient-x 8s ease-in-out infinite",
+        "gradient-y": "gradient-y 6s cubic-bezier(0.42,0,0.58,1) infinite",
       },
       keyframes: {
         "gradient-x": {
@@ -68,6 +69,24 @@ export default {
           "50%": {
             "background-size": "200% 200%",
             "background-position": "right center",
+          },
+        },
+        "gradient-y": {
+          "0%": {
+            "background-size": "100% 100%",
+            "background-position": " center",
+          },
+          "50%": {
+            "background-size": "120% 120%",
+            "background-position": " center",
+          },
+          "80%": {
+            "background-size": "95% 95%",
+            "background-position": " center",
+          },
+          "100%": {
+            "background-size": "100% 100%",
+            "background-position": "center",
           },
         },
       },
