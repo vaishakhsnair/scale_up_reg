@@ -271,7 +271,7 @@ export default function TeamRegistrationForm() {
                         "File size must be less than 2MB",
                     },
                   })}
-                  className="bg-white/5 h-16 border-white/10 text-white pt-4 file:bg-primary-blue file:text-white file:border-0 file:rounded-md file:px-4 file:py-2 hover:file:bg-primary-purple transition-all  cursor-pointer duration-200"
+                  className="bg-white/5 h-16 border-white/10 text-white pt-4 file:bg-primary-blue/30 file:mr-3 file:text-white file:border-0 file:rounded-md file:px-4 file:py-2 hover:file:bg-primary-purple/25 hover:file:cursor-pointer file:transition-all  transition-all  cursor-pointer duration-200"
                 />
                 {errors.abstract && (
                   <p className="text-red-500 text-sm">
