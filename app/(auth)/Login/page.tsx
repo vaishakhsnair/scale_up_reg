@@ -107,6 +107,13 @@ export default function Login() {
                 )}
               </div>
 
+              <p className="text-sm text-gray-400">
+                Dont have an account?{" "}
+                <a href="/Signup" className="text-primary-purple">
+                  Sign Up
+                </a>{" "}
+              </p>
+
               <Button
                 type="submit"
                 className="w-full bg-gradient-to-r font-semibold from-primary-blue/60 via-primary-purple to-primary-blue/60 hover:opacity-90 transition-opacity animate-gradient-x"
