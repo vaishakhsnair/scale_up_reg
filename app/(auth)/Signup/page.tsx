@@ -40,12 +40,12 @@ export default function Signup() {
     const { data, error } = await supabase.auth.signUp({
       email: Formdata.email,
       password: Formdata.password,
-      // options: {
-      //   data: {
-      //     displayName: Formdata.name,
-      //   },
-      //   // emailRedirectTo: "http://localhost:3000",
-      // },
+      options: {
+        data: {
+          displayName: Formdata.name,
+        },
+        // emailRedirectTo: "http://localhost:3000",
+      },
     });
     console.log(data);
     if (error) {

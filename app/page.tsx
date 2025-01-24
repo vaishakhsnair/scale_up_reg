@@ -10,7 +10,7 @@ export default function Home() {
   const cheksession = async () => {
     //function to check if the user is logged in or not it will be null if not logged in
     try {
-      const { data, error } = await supabase.auth.getUser();
+      const { data, error } = await supabase.auth.getSession();
       return data;
     } catch (e) {
       console.log(e);
@@ -19,7 +19,7 @@ export default function Home() {
   useEffect(() => {
     cheksession().then((data) => {
       console.log(data);
-      if (!data!.user) {
+      if (!data!.session) {
         redirect("/Login");
       }
     });

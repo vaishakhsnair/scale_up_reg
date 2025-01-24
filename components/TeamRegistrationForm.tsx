@@ -22,6 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { supabase } from "@/utils/supabase/server";
 
 type TeamMember = {
   name: string;
@@ -56,11 +57,32 @@ export default function TeamRegistrationForm() {
     name: "members",
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (Formdata: FormData) => {
     setIsLoading(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // Handle form submission
+
+    const { data, error } = await supabase
+      .from("registration")
+      .insert([
+        {
+          team_name: Formdata.teamName,
+          team_memebers: {
+            name: Formdata.members[0].name,
+            phone_number: Formdata.members[0].phoneNumber,
+            college_name: Formdata.members[0].collegeName,
+            year_of_learning: Formdata.members[0].yearOfLearning,
+            course_selected: Formdata.members[0].courseSelected,
+          },
+          abstract: "Cool Abstract",
+        },
+      ])
+      .select();
     console.log(data);
+    if (error) {
+      console.log(error.message);
+    }
+
     setIsLoading(false);
   };
 
