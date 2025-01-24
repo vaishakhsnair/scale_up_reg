@@ -44,6 +44,7 @@ const yearOptions = ["1st", "2nd", "3rd", "4th", "5th"];
 export default function TeamRegistrationForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [media, setMedia] = useState<string | null>(null);
 
   const {
     register,
@@ -64,6 +65,19 @@ export default function TeamRegistrationForm() {
     setIsLoading(true);
 
     // Handle form submission
+    const getMedia = async () => {
+      const { data, error } = await supabase.storage
+        .from("abstract_uploads")
+        .list(userId + "/" + `${Formdata.teamName}`);
+      if (data) {
+        // setMedia(data[0]);
+        console.log("DATA: ", data[0]);
+        // return data[0];
+      } else {
+        // return "Filler";
+      }
+    };
+
     const uploadFile = async () => {
       const file = Formdata.abstract[0];
       const { data, error } = await supabase.storage
@@ -73,9 +87,14 @@ export default function TeamRegistrationForm() {
         console.log(error.message);
       }
       console.log(data);
+
+      setMedia(
+        `https://oxxuvfjoivgtzvzemtpe.supabase.co/storage/v1/object/public/${data?.fullPath}`
+      );
+      return media;
     };
 
-    uploadFile();
+    // getMedia();
 
     const { data, error } = await supabase
       .from("registration")
@@ -89,7 +108,7 @@ export default function TeamRegistrationForm() {
             year_of_learning: Formdata.members[0].yearOfLearning,
             course_selected: Formdata.members[0].courseSelected,
           },
-          abstract: "Cool Abstract",
+          abstract: await uploadFile(),
         },
       ])
       .select();
