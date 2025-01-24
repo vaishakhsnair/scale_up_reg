@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { motion } from "framer-motion";
 import { Loader2, Plus, Trash2 } from "lucide-react";
@@ -23,6 +23,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { supabase } from "@/utils/supabase/server";
+import toast from "react-hot-toast";
 
 type TeamMember = {
   name: string;
@@ -42,6 +43,8 @@ const yearOptions = ["1st", "2nd", "3rd", "4th", "5th"];
 
 export default function TeamRegistrationForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+
   const {
     register,
     control,
@@ -61,6 +64,18 @@ export default function TeamRegistrationForm() {
     setIsLoading(true);
 
     // Handle form submission
+    const uploadFile = async () => {
+      const file = Formdata.abstract[0];
+      const { data, error } = await supabase.storage
+        .from("abstract_uploads")
+        .upload(userId + "/" + `${Formdata.teamName}`, file);
+      if (error) {
+        console.log(error.message);
+      }
+      console.log(data);
+    };
+
+    uploadFile();
 
     const { data, error } = await supabase
       .from("registration")
@@ -79,12 +94,28 @@ export default function TeamRegistrationForm() {
       ])
       .select();
     console.log(data);
+
     if (error) {
       console.log(error.message);
+      toast.error(error.message);
+    } else {
+      toast.success("Team Registered Successfully");
     }
 
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    const getUserId = async () => {
+      const { data, error } = await supabase.auth.getUser();
+      if (error) {
+        console.log(error.message);
+      } else {
+        setUserId(data.user?.id);
+      }
+    };
+    getUserId();
+  }, []);
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">

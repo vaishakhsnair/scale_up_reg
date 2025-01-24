@@ -5,6 +5,7 @@ import { div } from "framer-motion/client";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 
 export default function Home() {
   const cheksession = async () => {
@@ -28,6 +29,7 @@ export default function Home() {
   return (
     <div>
       <TeamRegistrationForm />
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 }
