@@ -15,6 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { supabase } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 type FormData = {
   email: string;
@@ -29,18 +30,23 @@ export default function Login() {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (Formdata: FormData) => {
     setIsLoading(true);
     // Handle login logic
-    console.log(data);
+    // console.log(data);
 
-    await supabase.auth.signInWithPassword({
-      email: data.email,
-      password: data.password,
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: Formdata.email,
+      password: Formdata.password,
     });
-    setIsLoading(false);
+    console.log(data);
+    if (error) {
+      console.log("Login faild:", error.message);
+    } else {
+      console.log("User Loggedin successfully:", data);
+      redirect("/");
+    }
   };
-
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-radial from-primary-blue/25 via-primary-purple/25 to-transparent animate-gradient-y opacity-50" />

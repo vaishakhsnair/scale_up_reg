@@ -15,8 +15,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { supabase } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 type FormData = {
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -31,14 +33,27 @@ export default function Signup() {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (Formdata: FormData) => {
     setIsLoading(true);
     // Handle signup logic
-    console.log(data);
-    await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
+
+    const { data, error } = await supabase.auth.signUp({
+      email: Formdata.email,
+      password: Formdata.password,
+      options: {
+        data: {
+          displayName: Formdata.name,
+        },
+        // emailRedirectTo: "http://localhost:3000",
+      },
     });
+    console.log(data);
+    if (error) {
+      console.log("Login faild:", error.message);
+    } else {
+      console.log("User SignedUp successfully:", data);
+      redirect("/Login");
+    }
     setIsLoading(false);
   };
 
@@ -64,6 +79,22 @@ export default function Signup() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="name" className="text-gray-200">
+                  Name
+                </Label>
+                <Input
+                  id="name"
+                  type="text"
+                  {...register("name", {
+                    required: "Name is required",
+                  })}
+                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:border-primary-purple/50 transition-colors"
+                />
+                {errors.name && (
+                  <p className="text-red-500 text-sm">{errors.name.message}</p>
+                )}
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-gray-200">
                   Email
