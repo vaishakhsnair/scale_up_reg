@@ -99,7 +99,20 @@ export default function TeamRegistrationForm() {
     setIsLoading(true);
 
     try {
-      // Create a promise for the file upload process
+      // First check if team name exists
+      const { data: existingTeam } = await supabase
+        .from("registration")
+        .select("team_name")
+        .eq("team_name", Formdata.teamName)
+        .single();
+
+      if (existingTeam) {
+        toast.error("Team name already exists");
+        setIsLoading(false);
+        return;
+      }
+
+      // If team name is unique, proceed with file upload
       const uploadFilePromise = async () => {
         const file = Formdata.abstract[0];
         const filePath = `${userId}/${Formdata.teamName}`;
@@ -118,22 +131,11 @@ export default function TeamRegistrationForm() {
       };
 
       // Use toast.promise for file upload
-      const abstractURL = await toast.promise(
-        uploadFilePromise(),
-        {
-          loading: "Uploading abstract file...",
-          success: "File uploaded successfully!",
-          error: "File upload failed",
-        },
-        {
-          // Keep the loading toast visible longer
-          duration: Infinity,
-          // Custom styling if needed
-          style: {
-            minWidth: "250px",
-          },
-        }
-      );
+      const abstractURL = await toast.promise(uploadFilePromise(), {
+        loading: "Uploading abstract file...",
+        success: "File uploaded successfully!",
+        error: "File upload failed",
+      });
 
       // After successful upload, proceed with registration
       const { data, error } = await supabase
@@ -155,11 +157,7 @@ export default function TeamRegistrationForm() {
         .select();
 
       if (error) {
-        if (error.message.includes("duplicate key value")) {
-          toast.error("Team Name already exists");
-        } else {
-          toast.error(error.message);
-        }
+        toast.error(error.message);
       } else {
         toast.success("Team Registered Successfully");
         setHasRegistered(true);
