@@ -45,7 +45,7 @@ export default function Signup() {
         data: {
           full_name: Formdata.name,
         },
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/Login`,
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/Login`,
       },
     });
     console.log(data);
