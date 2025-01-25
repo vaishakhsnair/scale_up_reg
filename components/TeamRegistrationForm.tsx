@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useForm, useFieldArray, Controller, set } from "react-hook-form";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { motion } from "framer-motion";
 import { Loader2, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,14 +17,12 @@ import {
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { supabase } from "@/utils/supabase/server";
 import toast from "react-hot-toast";
-import { on } from "events";
 
 type TeamMember = {
   name: string;
@@ -118,6 +116,9 @@ export default function TeamRegistrationForm() {
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from("abstract_uploads")
           .upload(filePath, file);
+        if (uploadData) {
+          console.log("upload data got");
+        }
 
         if (uploadError) throw new Error("File upload failed");
 
@@ -136,7 +137,7 @@ export default function TeamRegistrationForm() {
       });
 
       // After successful upload, proceed with registration
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("registration")
         .insert([
           {

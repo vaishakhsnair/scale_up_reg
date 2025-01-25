@@ -39,13 +39,10 @@ export default function RootLayout({
           {/* Fixed Banner Section */}
           <div className="hidden xl:block xl:w-[40%] fixed left-0 h-screen border-r border-gray-700/50">
             <div className="relative h-full w-full">
-              <Image
+              <img
                 src="/banner2.jpg"
                 alt="Registration Banner"
-                fill
-                className="object-cover opacity-75"
-                priority
-                quality={100}
+                className="object-cover w-full h-full opacity-75"
               />
               <div className="absolute inset-0 flex flex-col items-center justify-center z-20 text-center px-6">
                 <h1 className="text-7xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#639BF2] via-[#982dca] to-[#639BF2] animate-gradient-x">
