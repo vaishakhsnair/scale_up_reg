@@ -44,10 +44,8 @@ const yearOptions = ["1st", "2nd", "3rd", "4th", "5th"];
 
 export default function TeamRegistrationForm() {
   const [isLoading, setIsLoading] = useState(false);
-  const [isFileUploadLoading, setIsFileUploadLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [hasRegistered, setHasRegistered] = useState(false);
-  const [media, setMedia] = useState<string | null>(null);
 
   const {
     register,
