@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/card";
 import { supabase } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 
 type FormData = {
   name: string;
@@ -42,16 +43,20 @@ export default function Signup() {
       password: Formdata.password,
       options: {
         data: {
-          displayName: Formdata.name,
+          full_name: Formdata.name,
         },
-        // emailRedirectTo: "http://localhost:3000",
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/Login`,
       },
     });
     console.log(data);
     if (error) {
-      console.log("Login faild:", error.message);
+      console.log("SignUp faild:", error.message);
+      toast.error(`Signup failed: ${error.message}`);
     } else {
       console.log("User SignedUp successfully:", data);
+      toast.success(
+        "Signup successful! Please check your email for verification."
+      );
       redirect("/Login");
     }
     setIsLoading(false);
@@ -185,6 +190,7 @@ export default function Signup() {
           </CardContent>
         </Card>
       </motion.div>
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 }

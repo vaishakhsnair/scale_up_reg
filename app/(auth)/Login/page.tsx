@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/card";
 import { supabase } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 
 type FormData = {
   email: string;
@@ -42,10 +43,12 @@ export default function Login() {
     console.log(data);
     if (error) {
       console.log("Login faild:", error.message);
+      toast.error(`Login failed: ${error.message}`);
     } else {
       console.log("User Loggedin successfully:", data);
       redirect("/");
     }
+    setIsLoading(false);
   };
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
@@ -132,6 +135,7 @@ export default function Login() {
           </CardContent>
         </Card>
       </motion.div>
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 }
