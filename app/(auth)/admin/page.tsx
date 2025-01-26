@@ -123,7 +123,9 @@ export default function AdminDashboard() {
                     <TableRow className="bg-primary-purple/10">
                       <TableHead className="text-gray-200">Team Name</TableHead>
                       <TableHead className="text-gray-200">Members</TableHead>
-                      <TableHead className="text-gray-200">College</TableHead>
+                      <TableHead className="text-gray-200">
+                        College Details
+                      </TableHead>
                       <TableHead className="text-gray-200">Abstract</TableHead>
                       <TableHead className="text-gray-200">Date</TableHead>
                     </TableRow>
@@ -148,7 +150,17 @@ export default function AdminDashboard() {
                           ))}
                         </TableCell>
                         <TableCell className="text-gray-300">
-                          {reg.team_memebers[0].college_name}
+                          {reg.team_memebers.map((member, idx) => (
+                            <div key={idx} className="mb-2">
+                              <p className="font-medium">
+                                {member.college_name}
+                              </p>
+                              <p className="text-sm text-gray-400">
+                                {member.course_selected} •{" "}
+                                {member.year_of_learning} Year
+                              </p>
+                            </div>
+                          ))}
                         </TableCell>
                         <TableCell>
                           <Button
