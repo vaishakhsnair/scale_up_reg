@@ -33,6 +33,35 @@ type Registration = {
 export default function AdminDashboard() {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
+  useEffect(() => {
+    const checkAdminAuth = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        window.location.href = "/";
+        return;
+      }
+
+      const { data: userData, error } = await supabase
+        .from("users")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+
+      if (error || userData?.role !== "admin") {
+        window.location.href = "/";
+        return;
+      }
+
+      setIsAuthorized(true);
+    };
+
+    checkAdminAuth();
+  }, []);
 
   useEffect(() => {
     const fetchRegistrations = async () => {
@@ -60,6 +89,14 @@ export default function AdminDashboard() {
     link.click();
     document.body.removeChild(link);
   };
+
+  if (!isAuthorized) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary-purple" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black p-8">
