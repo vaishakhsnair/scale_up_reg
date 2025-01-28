@@ -11,25 +11,23 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black overflow-x-hidden">
-      {/* Hero Section with enhanced styling */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="container mx-auto px-4 py-20 text-center relative"
       >
-        {/* Background decorative elements */}
         <div className="absolute inset-0 bg-gradient-radial from-primary-blue/5 via-primary-purple/5 to-transparent animate-pulse" />
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-5xl md:text-7xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-[#639BF2] via-[#982dca] to-[#639BF2] animate-gradient-x leading-tight"
+          className="text-5xl md:text-7xl font-extrabold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-[#639BF2] via-[#982dca] to-[#639BF2] animate-gradient-x leading-tight"
         >
           Innovate. Create.
           <br />
-          Transform.
+          Connect.
         </motion.h1>
 
         <motion.p
@@ -70,13 +68,25 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.8 }}
+          className="relative group flex justify-center"
         >
           <Button
             onClick={() => router.push("/")}
-            className="bg-gradient-to-r font-bold from-primary-blue/60  to-primary-purple/80 hover:cursor-pointer hover:opacity-90 px-8 py-6 text-lg rounded-full group"
+            className="relative flex items-center justify-center px-8 py-6 text-lg rounded-full bg-black hover:bg-black/80 transition-all duration-200"
           >
-            Register Now
-            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary-blue/60 to-primary-purple/80 opacity-100 group-hover:opacity-80 transition-all duration-200" />
+            <span className="relative z-10 flex items-center font-bold text-white">
+              Register Now
+              <motion.span
+                className="ml-2 inline-block"
+                initial={false}
+                animate={{ x: 0 }}
+                whileHover={{ x: 4 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ArrowRight className="w-5 h-5" />
+              </motion.span>
+            </span>
           </Button>
         </motion.div>
       </motion.div>

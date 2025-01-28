@@ -15,7 +15,6 @@ const timelineEvents: TimelineEvent[] = [
     date: "15 March 2025",
     title: "Registration Opens",
     description: "Team registration begins for ScaleUp LaunchPad 2025",
-    icon: <Calendar className="w-6 h-6" />,
   },
   {
     date: "30 March 2025",
