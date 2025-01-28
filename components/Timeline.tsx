@@ -12,33 +12,24 @@ type TimelineEvent = {
 
 const timelineEvents: TimelineEvent[] = [
   {
-    date: "15 March 2024",
+    date: "15 March 2025",
     title: "Registration Opens",
-    description: "Team registration begins for ScaleUp LaunchPad 2024",
+    description: "Team registration begins for ScaleUp LaunchPad 2025",
     icon: <Calendar className="w-6 h-6" />,
   },
   {
-    date: "30 March 2024",
+    date: "30 March 2025",
     title: "Abstract Submission",
     description: "Last date to submit your project abstracts",
   },
   {
-    date: "5 April 2024",
+    date: "5 April 2025",
     title: "Shortlisting",
     description: "Selected teams will be notified for the next round",
   },
+
   {
-    date: "5 April 2024",
-    title: "Shortlisting",
-    description: "Selected teams will be notified for the next round",
-  },
-  {
-    date: "5 April 2024",
-    title: "Shortlisting",
-    description: "Selected teams will be notified for the next round",
-  },
-  {
-    date: "15 April 2024",
+    date: "15 April 2025",
     title: "Final Presentation",
     description: "Present your project to our panel of experts",
   },
@@ -58,8 +49,8 @@ export default function Timeline() {
             key={index}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.5, delay: index * 0.2 }}
-            viewport={{ once: true }}
             className={`flex flex-col md:flex-row ${
               index % 2 === 0 ? "md:flex-row-reverse" : ""
             } items-center gap-8 relative`}
@@ -73,6 +64,7 @@ export default function Timeline() {
               <motion.div
                 initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
                 className="bg-black/30 backdrop-blur-xl border border-primary-blue/20 p-6 rounded-xl shadow-lg shadow-primary-purple/10"
               >
@@ -91,6 +83,7 @@ export default function Timeline() {
               <motion.div
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
+                viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
                 className="w-12 h-12 rounded-full bg-gradient-to-r from-primary-blue via-primary-purple to-primary-blue p-[2px]"
               >
