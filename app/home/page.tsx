@@ -4,7 +4,7 @@ import Timeline from "@/components/Timeline";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Rocket, Target, Trophy } from "lucide-react";
+import { ArrowRight, Rocket, Target, Goal } from "lucide-react";
 
 export default function Home() {
   const router = useRouter();
@@ -51,14 +51,16 @@ export default function Home() {
         >
           {[
             { icon: <Rocket className="w-8 h-8" />, text: "Launch Your Ideas" },
-            { icon: <Target className="w-8 h-8" />, text: "Expert Mentorship" },
-            { icon: <Trophy className="w-8 h-8" />, text: "Amazing Prizes" },
+            { icon: <Target className="w-8 h-8" />, text: "Connect" },
+            { icon: <Goal className="w-8 h-8" />, text: "Get Noticed" },
           ].map((feature, index) => (
             <div
               key={index}
               className="bg-black/30 backdrop-blur-xl border border-primary-blue/20 p-6 rounded-xl shadow-lg shadow-primary-purple/10 hover:border-primary-purple/40 transition-all"
             >
-              <div className="text-primary-purple mb-4">{feature.icon}</div>
+              <div className="text-primary-purple mb-4 flex justify-center">
+                {feature.icon}
+              </div>
               <h3 className="text-white font-semibold">{feature.text}</h3>
             </div>
           ))}
@@ -71,7 +73,7 @@ export default function Home() {
         >
           <Button
             onClick={() => router.push("/")}
-            className="bg-gradient-to-r from-primary-blue/60 via-primary-purple to-primary-blue/60 hover:opacity-90 px-8 py-6 text-lg rounded-full group"
+            className="bg-gradient-to-r font-bold from-primary-blue/60  to-primary-purple/80 hover:cursor-pointer hover:opacity-90 px-8 py-6 text-lg rounded-full group"
           >
             Register Now
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
