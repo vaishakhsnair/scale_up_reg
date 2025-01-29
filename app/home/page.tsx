@@ -17,7 +17,6 @@ export default function Home() {
         numSquares={50}
         maxOpacity={0.5}
         duration={3}
-        repeatDelay={0.5}
         className={cn(
           "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]",
           "inset-x-0 inset-y-[10%] h-[100%] skew-y-12 absolute"
