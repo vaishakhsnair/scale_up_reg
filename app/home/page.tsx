@@ -5,12 +5,25 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Rocket, Target, Goal } from "lucide-react";
+import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
   const router = useRouter();
 
   return (
     <div className="min-h-screen bg-black overflow-x-hidden w-full">
+      <AnimatedGridPattern
+        numSquares={50}
+        maxOpacity={0.5}
+        duration={1}
+        repeatDelay={0.5}
+        className={cn(
+          "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]",
+          "inset-x-0 inset-y-[10%] h-[100%] skew-y-12 absolute"
+        )}
+      />
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
