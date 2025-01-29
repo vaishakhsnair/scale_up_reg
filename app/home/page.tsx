@@ -16,7 +16,7 @@ export default function Home() {
       <AnimatedGridPattern
         numSquares={50}
         maxOpacity={0.5}
-        duration={1}
+        duration={3}
         repeatDelay={0.5}
         className={cn(
           "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]",
@@ -36,18 +36,16 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-5xl md:text-7xl font-extrabold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-[#639BF2] via-[#982dca] to-[#639BF2] animate-gradient-x leading-tight"
+          className="text-5xl md:text-7xl  font-extrabold my-8 text-transparent bg-clip-text bg-gradient-to-r from-[#639BF2] via-[#982dca] to-[#639BF2] animate-gradient-x leading-tight"
         >
-          Innovate. Create.
-          <br />
-          Connect.
+          Innovate ◦ Create ◦ Connect
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.4 }}
-          className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed"
+          className="text-xl md:text-2xl text-gray-400/50 mb-12 max-w-3xl mx-auto leading-relaxed"
         >
           Join us on this exciting journey of innovation and entrepreneurship.
           Shape the future with your groundbreaking ideas.
