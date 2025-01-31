@@ -7,22 +7,14 @@ import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 
 export default function Home() {
-  const cheksession = async () => {
-    //function to check if the user is logged in or not it will be null if not logged in
-    try {
-      const { data } = await supabase.auth.getSession();
-      return data;
-    } catch (e) {
-      console.log(e);
-    }
-  };
   useEffect(() => {
-    cheksession().then((data) => {
-      console.log(data);
-      if (!data!.session) {
-        redirect("/Login");
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        redirect("/home");
       }
-    });
+    };
+    checkSession();
   }, []);
 
   return (
