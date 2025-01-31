@@ -113,6 +113,22 @@ export default function TeamRegistrationForm() {
         const file = Formdata.abstract[0];
         const filePath = `${userId}/${Formdata.teamName}`;
 
+        // Check if File with same name exists
+
+        const { data: existingFile } = await supabase.storage
+          .from("abstract_uploads")
+          .info(filePath);
+        if (existingFile) {
+          // File with same name exists
+          // delete the existing file if user wants to upload new file and file was uploaded by the same user
+          console.log(existingFile);
+          if (existingFile) {
+            await supabase.storage.from("abstract_uploads").remove([filePath]);
+          } else {
+            throw new Error("File with same name exists");
+          }
+        }
+
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from("abstract_uploads")
           .upload(filePath, file);
@@ -254,7 +270,7 @@ export default function TeamRegistrationForm() {
                             `members.${index}.phoneNumber` as const,
                             {
                               required: "Phone number is required",
-                            }
+                            },
                           )}
                           className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:border-primary-purple/50 transition-colors"
                         />
@@ -276,7 +292,7 @@ export default function TeamRegistrationForm() {
                             `members.${index}.collegeName` as const,
                             {
                               required: "College name is required",
-                            }
+                            },
                           )}
                           className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:border-primary-purple/50 transition-colors"
                         />
@@ -331,7 +347,7 @@ export default function TeamRegistrationForm() {
                         <Input
                           {...register(
                             `members.${index}.courseSelected` as const,
-                            { required: "Course is required" }
+                            { required: "Course is required" },
                           )}
                           className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:border-primary-purple/50 transition-colors"
                           placeholder="e.g., BTech CSE, Mechanical Engineering"
