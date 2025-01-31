@@ -31,21 +31,42 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-gradient-radial from-primary-blue/5 via-primary-purple/5 to-transparent animate-pulse" />
 
-        {/* Auth Buttons - Fixed to top right */}
-        <div className="fixed top-6 right-6 z-50 flex gap-4">
-          <Button
-            onClick={() => router.push("/Login")}
-            className="bg-black/30  border border-primary-blue/20 hover:bg-gradient-to-r hover:from-primary-blue/60 hover:to-primary-purple hover:text-white  text-white px-6"
+        {/* Auth Buttons with improved animation */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.6,
+            ease: "easeOut",
+            delay: 0.3,
+          }}
+          className="fixed top-6 right-6 z-50 flex gap-4"
+        >
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: 0.5 }}
           >
-            Login
-          </Button>
-          <Button
-            onClick={() => router.push("/Signup")}
-            className="bg-gradient-to-r from-primary-blue/60 to-primary-purple  hover:opacity-90"
+            <Button
+              onClick={() => router.push("/Login")}
+              className="bg-black/30 border border-primary-blue/20 hover:bg-gradient-to-r hover:from-primary-blue/60 hover:to-primary-purple hover:text-white text-white px-6"
+            >
+              Login
+            </Button>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: 0.6 }}
           >
-            Sign Up
-          </Button>
-        </div>
+            <Button
+              onClick={() => router.push("/Signup")}
+              className="bg-gradient-to-r from-primary-blue/60 to-primary-purple hover:opacity-90"
+            >
+              Sign Up
+            </Button>
+          </motion.div>
+        </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -90,34 +111,46 @@ export default function Home() {
           ))}
         </motion.div>
 
-        {/* Register Button Section - Update with auth message */}
+        {/* Register Button Section with improved animation */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.8 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.8,
+            ease: [0.23, 1, 0.32, 1],
+          }}
           className="relative group flex flex-col items-center gap-4"
         >
           <Button
             onClick={() => router.push("/Login")}
-            className="relative flex items-center justify-center px-8 py-6 text-lg rounded-full bg-black hover:bg-black/80 transition-all duration-200"
+            className="relative flex items-center justify-center px-8 py-6 text-lg rounded-full bg-black hover:bg-black/80 transition-all duration-300"
           >
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary-blue/60 to-primary-purple/80 opacity-100 group-hover:opacity-80 transition-all duration-200" />
-            <span className="relative z-10 flex items-center font-bold text-white">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary-blue/60 to-primary-purple/80 opacity-100 group-hover:opacity-80 transition-all duration-300" />
+            <motion.span
+              className="relative z-10 flex items-center font-bold text-white"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
               Register Now
               <motion.span
                 className="ml-2 inline-block"
                 initial={false}
-                animate={{ x: 0 }}
                 whileHover={{ x: 4 }}
                 transition={{ duration: 0.2 }}
               >
                 <ArrowRight className="w-5 h-5" />
               </motion.span>
-            </span>
+            </motion.span>
           </Button>
-          <p className="text-gray-400/70 text-sm">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 1 }}
+            className="text-gray-400/70 text-sm"
+          >
             Authentication required to register for LaunchPad
-          </p>
+          </motion.p>
         </motion.div>
       </motion.div>
 
