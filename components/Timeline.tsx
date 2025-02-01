@@ -11,25 +11,27 @@ type TimelineEvent = {
 
 const timelineEvents: TimelineEvent[] = [
   {
-    date: "15 March 2025",
-    title: "Registration Opens",
-    description: "Team registration begins for ScaleUp LaunchPad 2025",
+    date: "5 February 2025",
+    title: "Abstract Submission Deadline",
+    description:
+      "Submit your project abstracts by 11:59 PM for LaunchPad 2025.",
   },
   {
-    date: "30 March 2025",
-    title: "Abstract Submission",
-    description: "Last date to submit your project abstracts",
+    date: "10 February 2025",
+    title: "Shortlisted Teams Announcement",
+    description: "Top 20 teams will be notified for the final round.",
   },
   {
-    date: "5 April 2025",
-    title: "Shortlisting",
-    description: "Selected teams will be notified for the next round",
+    date: "14 February 2025",
+    title: "Final Round Presentation",
+    description:
+      "Participating teams will present their ideas to the panel of experts.",
   },
-
   {
-    date: "15 April 2025",
-    title: "Final Presentation",
-    description: "Present your project to our panel of experts",
+    date: "14 February 2025",
+    title: "Result Announcement",
+    description:
+      "Winners will be announced on the same day after the presentations.",
   },
 ];
 
