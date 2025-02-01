@@ -195,7 +195,7 @@ export default function TeamRegistrationForm() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-black flex items-center mt-10 justify-center p-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-radial from-primary-blue/25 via-primary-purple/25  to-transparent animate-gradient-y opacity-50" />
       <motion.div
         initial={{ opacity: 0, y: 20 }}

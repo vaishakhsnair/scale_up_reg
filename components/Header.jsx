@@ -4,58 +4,64 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase/server";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { User, LogIn, UserPlus } from "lucide-react";
+import { User, LogIn } from "lucide-react";
 
 const Header = () => {
   const router = useRouter();
   const [loggedin, setLoggedin] = useState(false);
 
-  // Check if the user is logged in and check with every route change
   useEffect(() => {
-    const checkSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      if (data.session) {
-        setLoggedin(true);
-      } else {
-        setLoggedin(false);
-      }
-    };
+    // Initial session check
     checkSession();
-  }, [router]);
+
+    // Subscribe to auth state changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      setLoggedin(!!session);
+    });
+
+    // Cleanup subscription
+    return () => subscription?.unsubscribe();
+  }, []);
+
+  const checkSession = async () => {
+    const { data } = await supabase.auth.getSession();
+    setLoggedin(!!data.session);
+  };
 
   return (
-    <header className="w-full bg-black/50 backdrop-blur-xl border-b border-primary-blue/20 fixed top-0 z-50">
+    <header className="w-full bg-black/95 backdrop-blur-xl border-b border-primary-blue/10 fixed top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        {/* Logo or Brand Name */}
+        {/* Logo with enhanced styling */}
         <div
-          className="text-white text-xl font-bold cursor-pointer"
           onClick={() => router.push("/")}
+          className="text-xl font-bold cursor-pointer"
         >
-          <span className="text-primary-purple">Launchpad</span> 2025
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-blue to-primary-purple">
+            Launchpad
+          </span>{" "}
+          <span className="text-gray-300">2025</span>
         </div>
 
         {/* Navigation Links */}
         <nav className="flex items-center gap-4">
           {loggedin ? (
-            // If logged in, show the user's profile or dashboard
             <Button
               onClick={() => router.push("/dashboard")}
-              className="flex items-center gap-2 bg-primary-purple hover:bg-primary-purple/80 transition-all"
+              className="bg-black/50 hover:bg-primary-blue/20 text-gray-300 hover:text-white transition-all border border-primary-blue/10 flex items-center gap-2"
             >
               <User className="w-5 h-5" />
               Dashboard
             </Button>
           ) : (
-            // If not logged in, show Login and Signup buttons
-            <>
-              <Button
-                onClick={() => router.push("/login")}
-                className="flex items-center gap-2 bg-primary-purple hover:bg-primary-purple/80 transition-all"
-              >
-                <LogIn className="w-5 h-5" />
-                Login
-              </Button>
-            </>
+            <Button
+              onClick={() => router.push("/login")}
+              className="bg-gradient-to-r from-primary-blue/60 via-primary-purple to-primary-blue/60 hover:opacity-90 transition-all flex items-center gap-2"
+            >
+              <LogIn className="w-5 h-5" />
+              Login
+            </Button>
           )}
         </nav>
       </div>
