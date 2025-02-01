@@ -46,7 +46,9 @@ export default function Login() {
       toast.error(`Login failed: ${error.message}`);
     } else {
       console.log("User Loggedin successfully:", data);
-      redirect("/");
+
+      //redirect via reload
+      window.location.href = "/";
     }
     setIsLoading(false);
   };
