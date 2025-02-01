@@ -119,7 +119,7 @@ export default function Home() {
     },
   ];
 
-  const handleCardClick = (problem: string) => {
+  const handleCardClick = (problem) => {
     setSelectedProblem(problem);
     setIsModalOpen(true);
   };
@@ -130,7 +130,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-black overflow-x-hidden w-full">
+    <div className="min-h-screen bg-black overflow-x-hidden w-full ">
       <AnimatedGridPattern
         numSquares={50}
         maxOpacity={0.5}
@@ -176,7 +176,7 @@ export default function Home() {
       </motion.div>
 
       {/* Problem Statements Section */}
-      <motion.div className="container mx-auto py-20">
+      <motion.div className="container mx-auto py-20 p-4">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-[#639BF2] via-[#982dca] to-[#639BF2]">
           Problem Statements
         </h2>
@@ -199,6 +199,14 @@ export default function Home() {
             </div>
           ))}
         </div>
+      </motion.div>
+
+      {/* Timeline Section */}
+      <motion.div className="container mx-auto pb-20">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-[#639BF2] via-[#982dca] to-[#639BF2]">
+          Event Timeline
+        </h2>
+        <Timeline />
       </motion.div>
 
       {/* Event Phases Section */}
@@ -328,14 +336,6 @@ export default function Home() {
         onClose={closeModal}
         problem={selectedProblem}
       />
-
-      {/* Timeline Section */}
-      <motion.div className="container mx-auto pb-20">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-[#639BF2] via-[#982dca] to-[#639BF2]">
-          Event Timeline
-        </h2>
-        <Timeline />
-      </motion.div>
 
       {/* Participation Guidelines Section */}
       <motion.div className="container mx-auto pb-20 px-4">
