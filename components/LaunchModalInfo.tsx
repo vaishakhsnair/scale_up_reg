@@ -25,42 +25,48 @@ const LaunchModalInfo = ({
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
     >
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-xl" />
+      {/* Enhanced backdrop with darker theme */}
+      <div className="absolute inset-0 bg-black/95 backdrop-blur-xl">
+        <div className="absolute inset-0 bg-gradient-radial from-primary-blue/15 via-primary-purple/15 to-transparent animate-gradient-y opacity-30" />
+      </div>
+
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ type: "spring", duration: 0.5 }}
-        className="relative w-full max-w-4xl overflow-hidden rounded-xl bg-gradient-to-br from-black via-gray-900 to-black border border-white/10"
+        className="relative w-full max-w-4xl overflow-hidden rounded-xl bg-black/50 backdrop-blur-xl border border-primary-blue/10 shadow-lg shadow-primary-purple/20"
       >
-        {/* Animated gradient border effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-blue/20 via-primary-purple/20 to-primary-blue/20 animate-gradient-x" />
+        {/* Darker glowing border effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-blue/10 via-primary-purple/10 to-primary-blue/10 animate-gradient-x opacity-30" />
 
-        <div className="relative p-6">
+        <div className="relative p-8">
           <Button
             variant="ghost"
-            className="absolute right-4 top-4 text-gray-400 hover:text-white hover:bg-white/10 rounded-full h-8 w-8 p-0"
+            className="absolute right-4 top-4 text-gray-400 hover:text-white hover:bg-primary-purple/10 rounded-full h-8 w-8 p-0 transition-colors"
             onClick={onClose}
           >
             <X className="h-4 w-4" />
           </Button>
 
-          <motion.h2
+          <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-4xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-[#639BF2] via-[#982dca] to-[#639BF2] animate-gradient-x"
+            className="text-center space-y-2 mb-8"
           >
-            LAUNCHPAD
-            <span className="block text-lg mt-2 font-normal tracking-wider">
+            <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#639BF2] via-[#982dca] to-[#639BF2] animate-gradient-x">
+              LAUNCHPAD
+            </h2>
+            <p className="text-lg text-gray-400 tracking-wider">
               WHERE INNOVATIONS MEETS OPPORTUNITY
-            </span>
-          </motion.h2>
+            </p>
+          </motion.div>
 
-          <ScrollArea className="h-[60vh] px-4 [&>div>div]:!bg-white/20">
-            <div className="space-y-8 text-gray-200 pr-4">
-              {/* Content sections with enhanced styling */}
-              <section className="rounded-lg bg-white/5 p-6 backdrop-blur-sm border border-white/10 transition-all hover:bg-white/[0.07]">
+          <ScrollArea className="h-[60vh] px-4 [&>div>div]:!bg-primary-purple/10">
+            <div className="space-y-6 text-gray-300 pr-4">
+              {/* Static section styling without hover effects */}
+              <section className="rounded-lg bg-black/40 p-6 backdrop-blur-sm border border-primary-blue/5">
                 <h3 className="text-xl font-semibold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-primary-blue to-primary-purple">
                   LAUNCHPAD OVERVIEW
                 </h3>
@@ -70,7 +76,7 @@ const LaunchModalInfo = ({
                 </p>
               </section>
 
-              <section className="rounded-lg bg-white/5 p-6 backdrop-blur-sm border border-white/10 transition-all hover:bg-white/[0.07]">
+              <section className="rounded-lg bg-black/40 p-6 backdrop-blur-sm border border-primary-blue/5">
                 <h3 className="text-xl font-semibold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-primary-blue to-primary-purple">
                   PHASES
                 </h3>
@@ -96,7 +102,7 @@ const LaunchModalInfo = ({
                 </div>
               </section>
 
-              <section className="rounded-lg bg-white/5 p-6 backdrop-blur-sm border border-white/10 transition-all hover:bg-white/[0.07]">
+              <section className="rounded-lg bg-black/40 p-6 backdrop-blur-sm border border-primary-blue/5">
                 <h3 className="text-xl font-semibold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-primary-blue to-primary-purple">
                   PROBLEM STATEMENTS
                 </h3>
@@ -113,7 +119,7 @@ const LaunchModalInfo = ({
                 </ul>
               </section>
 
-              <section className="rounded-lg bg-white/5 p-6 backdrop-blur-sm border border-white/10 transition-all hover:bg-white/[0.07]">
+              <section className="rounded-lg bg-black/40 p-6 backdrop-blur-sm border border-primary-blue/5">
                 <h3 className="text-xl font-semibold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-primary-blue to-primary-purple">
                   GUIDELINES & REQUIREMENTS
                 </h3>
@@ -139,7 +145,7 @@ const LaunchModalInfo = ({
                 </div>
               </section>
 
-              <section className="rounded-lg bg-white/5 p-6 backdrop-blur-sm border border-white/10 transition-all hover:bg-white/[0.07]">
+              <section className="rounded-lg bg-black/40 p-6 backdrop-blur-sm border border-primary-blue/5">
                 <h3 className="text-xl font-semibold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-primary-blue to-primary-purple">
                   CONTACT INFORMATION
                 </h3>
@@ -149,8 +155,8 @@ const LaunchModalInfo = ({
             </div>
           </ScrollArea>
 
-          <div className="mt-8 space-y-6 border-t border-white/10 pt-6">
-            <div className="flex items-center space-x-3 bg-white/5 p-4 rounded-lg">
+          <div className="mt-8 space-y-6 border-t border-primary-blue/20 pt-6">
+            <div className="flex items-center space-x-3 bg-black/40 p-4 rounded-lg border border-primary-blue/5">
               <Checkbox
                 id="terms"
                 checked={hasAgreed}
@@ -159,7 +165,7 @@ const LaunchModalInfo = ({
               />
               <label
                 htmlFor="terms"
-                className="text-sm text-gray-300 hover:text-white transition-colors"
+                className="text-sm text-gray-300 hover:text-white transition-colors cursor-pointer"
               >
                 I have read and understood all the information provided above
               </label>
@@ -168,14 +174,14 @@ const LaunchModalInfo = ({
             <div className="flex justify-end space-x-4">
               <Button
                 onClick={onClose}
-                className="bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white transition-all border-0"
+                className="bg-black/50 hover:bg-primary-blue/20 text-gray-300 hover:text-white transition-all border border-primary-blue/10"
               >
                 Cancel
               </Button>
               <Button
                 onClick={onConfirm}
                 disabled={!hasAgreed}
-                className="bg-gradient-to-r from-primary-blue via-primary-purple to-primary-blue hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed animate-gradient-x bg-[length:200%_auto]"
+                className="bg-gradient-to-r from-primary-blue/60 via-primary-purple to-primary-blue/60 hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed animate-gradient-x"
               >
                 Proceed with Registration
               </Button>
