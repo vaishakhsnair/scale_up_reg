@@ -47,12 +47,6 @@ export default function AdminDashboard() {
         return;
       }
 
-      const { data: userData, error } = await supabase
-        .from("users")
-        .select("role")
-        .eq("id", user.id)
-        .single();
-
       setIsAuthorized(true);
     };
 
