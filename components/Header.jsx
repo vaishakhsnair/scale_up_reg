@@ -11,7 +11,6 @@ const Header = () => {
   const [loggedin, setLoggedin] = useState(false);
 
   useEffect(() => {
-    // Initial session check
     checkSession();
 
     // Subscribe to auth state changes
@@ -27,7 +26,7 @@ const Header = () => {
 
   const checkSession = async () => {
     const { data } = await supabase.auth.getSession();
-    setLoggedin(!!data.session);
+    setLoggedin(!!data.session); // Boolean Converion aan
   };
 
   return (
