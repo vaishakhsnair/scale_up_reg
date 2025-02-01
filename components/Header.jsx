@@ -10,7 +10,7 @@ const Header = () => {
   const router = useRouter();
   const [loggedin, setLoggedin] = useState(false);
 
-  // Check if the user is logged in
+  // Check if the user is logged in and check with every route change
   useEffect(() => {
     const checkSession = async () => {
       const { data } = await supabase.auth.getSession();
@@ -21,7 +21,7 @@ const Header = () => {
       }
     };
     checkSession();
-  }, []);
+  }, [router]);
 
   return (
     <header className="w-full bg-black/50 backdrop-blur-xl border-b border-primary-blue/20 fixed top-0 z-50">
@@ -54,13 +54,6 @@ const Header = () => {
               >
                 <LogIn className="w-5 h-5" />
                 Login
-              </Button>
-              <Button
-                onClick={() => router.push("/signup")}
-                className="flex items-center gap-2 bg-primary-blue hover:bg-primary-blue/80 transition-all"
-              >
-                <UserPlus className="w-5 h-5" />
-                Signup
               </Button>
             </>
           )}
