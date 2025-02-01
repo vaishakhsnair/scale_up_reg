@@ -15,7 +15,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { supabase } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 
 type FormData = {
