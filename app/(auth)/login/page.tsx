@@ -129,7 +129,7 @@ export default function Login() {
               </div>
 
               <p className="text-sm text-gray-400">
-                Don't have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <a href="/signup" className="text-primary-purple">
                   Sign Up
                 </a>{" "}
