@@ -57,7 +57,7 @@ export default function Signup() {
       toast.success(
         "Signup successful! Please check your email for verification.",
       );
-      redirect("/Login");
+      redirect("/login");
     }
     setIsLoading(false);
   };
