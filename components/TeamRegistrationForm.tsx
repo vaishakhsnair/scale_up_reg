@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/card";
 import { supabase } from "@/utils/supabase/server";
 import toast from "react-hot-toast";
+import LaunchModalInfo from "./LaunchModalInfo";
 
 type TeamMember = {
   name: string;
@@ -44,6 +45,8 @@ export default function TeamRegistrationForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [hasRegistered, setHasRegistered] = useState(false);
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [pendingFormData, setPendingFormData] = useState<FormData | null>(null);
 
   const {
     register,
@@ -85,6 +88,12 @@ export default function TeamRegistrationForm() {
     };
     getUserId();
   }, []);
+
+  const handleModalConfirm = async () => {
+    if (!pendingFormData) return;
+    setShowInfoModal(false);
+    await onSubmit(pendingFormData);
+  };
 
   const onSubmit = async (Formdata: FormData) => {
     if (hasRegistered) {
@@ -186,7 +195,7 @@ export default function TeamRegistrationForm() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-black flex items-center mt-10 justify-center p-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-radial from-primary-blue/25 via-primary-purple/25  to-transparent animate-gradient-y opacity-50" />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -212,7 +221,13 @@ export default function TeamRegistrationForm() {
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <form
+                onSubmit={handleSubmit((data) => {
+                  setPendingFormData(data);
+                  setShowInfoModal(true);
+                })}
+                className="space-y-6"
+              >
                 <div className="space-y-2">
                   <Label htmlFor="teamName" className="text-gray-200">
                     Team Name
@@ -270,7 +285,7 @@ export default function TeamRegistrationForm() {
                             `members.${index}.phoneNumber` as const,
                             {
                               required: "Phone number is required",
-                            },
+                            }
                           )}
                           className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:border-primary-purple/50 transition-colors"
                         />
@@ -292,7 +307,7 @@ export default function TeamRegistrationForm() {
                             `members.${index}.collegeName` as const,
                             {
                               required: "College name is required",
-                            },
+                            }
                           )}
                           className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:border-primary-purple/50 transition-colors"
                         />
@@ -347,7 +362,7 @@ export default function TeamRegistrationForm() {
                         <Input
                           {...register(
                             `members.${index}.courseSelected` as const,
-                            { required: "Course is required" },
+                            { required: "Course is required" }
                           )}
                           className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:border-primary-purple/50 transition-colors"
                           placeholder="e.g., BTech CSE, Mechanical Engineering"
@@ -433,6 +448,11 @@ export default function TeamRegistrationForm() {
           </CardContent>
         </Card>
       </motion.div>
+      <LaunchModalInfo
+        isOpen={showInfoModal}
+        onClose={() => setShowInfoModal(false)}
+        onConfirm={handleModalConfirm}
+      />
     </div>
   );
 }

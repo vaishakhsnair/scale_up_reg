@@ -107,6 +107,13 @@ export default function AdminDashboard() {
               <div className="flex justify-center items-center h-64">
                 <Loader2 className="w-8 h-8 animate-spin text-primary-purple" />
               </div>
+            ) : registrations.length === 0 ? (
+              <div className="flex flex-col items-center justify-center  space-y-4">
+                <p className="text-xl text-gray-400">No registrations yet</p>
+                <p className="text-sm text-gray-500">
+                  Registration entries will appear here
+                </p>
+              </div>
             ) : (
               <div className="overflow-x-auto">
                 <Table className="border-collapse w-full">
