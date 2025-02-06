@@ -170,7 +170,7 @@ export default function Home() {
             </motion.span>
           </Button>
           <motion.p className="text-gray-400/70 text-sm">
-            Submit your abstract by February 5, 2025.
+            Submit your abstract by February 6, 2025.
           </motion.p>
         </motion.div>
       </motion.div>
