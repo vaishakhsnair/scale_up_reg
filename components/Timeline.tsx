@@ -11,7 +11,7 @@ type TimelineEvent = {
 
 const timelineEvents: TimelineEvent[] = [
   {
-    date: "5 February 2025",
+    date: "8 February 2025",
     title: "Abstract Submission Deadline",
     description:
       "Submit your project abstracts by 11:59 PM for LaunchPad 2025.",
