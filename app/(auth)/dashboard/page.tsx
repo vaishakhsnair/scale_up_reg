@@ -14,8 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { toast, Toaster } from "react-hot-toast"; // import toast and Toaster
-// modal for confirmation
+import { toast, Toaster } from "react-hot-toast";
 
 type Registration = {
   id: number;
@@ -38,6 +37,8 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [admin, setIsAdmin] = useState(false);
+  const [currentUserRegistration, setCurrentUserRegistration] =
+    useState<Registration | null>(null);
 
   const fetchRegistrations = async () => {
     const { data, error } = await supabase
@@ -47,32 +48,29 @@ export default function AdminDashboard() {
 
     if (error) {
       console.error("Error fetching registrations:", error);
-      toast.error("Failed to load registrations"); // Display error toast
+      toast.error("Failed to load registrations");
     } else {
       setRegistrations(data || []);
     }
     setLoading(false);
   };
 
-  async function toggleAcceptance(id: number, accept: boolean) {
-    //accept the registration
-    const { data, error } = await supabase
+  const toggleAcceptance = async (id: number, accept: boolean) => {
+    const { error } = await supabase
       .from("registration")
       .update({ accepted: accept })
       .eq("id", id);
 
     if (error) {
       console.error("Error updating registration:", error);
-      toast.error("Failed to accept registration"); // Display error toast
+      toast.error("Failed to accept registration");
     } else {
       toast.success(
         `Registration ${accept ? "Accepted" : "Rejected"} successfully`,
-      ); // Display
-
-      // update the registrations list
+      );
       fetchRegistrations();
     }
-  }
+  };
 
   useEffect(() => {
     const checkAdminAuth = async () => {
@@ -106,6 +104,23 @@ export default function AdminDashboard() {
   useEffect(() => {
     fetchRegistrations();
   }, []);
+
+  useEffect(() => {
+    const getCurrentUserRegistration = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        const userRegistration = registrations.find(
+          (reg) => reg.user_id === user.id,
+        );
+        setCurrentUserRegistration(userRegistration || null);
+      }
+    };
+
+    getCurrentUserRegistration();
+  }, [registrations]);
 
   const downloadAbstract = (url: string, teamName: string) => {
     const link = document.createElement("a");
@@ -143,7 +158,7 @@ export default function AdminDashboard() {
                 <Loader2 className="w-8 h-8 animate-spin text-primary-purple" />
               </div>
             ) : registrations.length === 0 ? (
-              <div className="flex flex-col items-center justify-center  space-y-4">
+              <div className="flex flex-col items-center justify-center space-y-4">
                 <p className="text-xl text-gray-400">No registrations yet</p>
                 <p className="text-sm text-gray-500">
                   Registration entries will appear here
@@ -154,7 +169,9 @@ export default function AdminDashboard() {
                 <Table className="border-collapse w-full">
                   <TableHeader>
                     <TableRow className="bg-primary-purple/10">
-                      <TableHead className="text-gray-200">Accept</TableHead>
+                      {admin && (
+                        <TableHead className="text-gray-200">Accept</TableHead>
+                      )}
                       <TableHead className="text-gray-200">Team Name</TableHead>
                       <TableHead className="text-gray-200">Members</TableHead>
                       <TableHead className="text-gray-200">
@@ -173,43 +190,40 @@ export default function AdminDashboard() {
                           ${reg.accepted == null ? " " : reg.accepted ? "bg-green-950 hover:bg-green-950" : "bg-red-950 hover:bg-red-950"}
                           `}
                       >
-                        <TableCell
-                          className="text-gray-300 font-medium flex flex-col
+                        {admin && (
+                          <TableCell
+                            className="text-gray-300 font-medium flex flex-col
                           gap-2 items-center justify-center  "
-                        >
-                          <Button
-                            onClick={() => {
-                              //accept the registration
-                              //show a confirmation
-                              const ok = window.confirm(
-                                "Do you really want to accept this registration?",
-                              );
-                              if (ok) {
-                                toggleAcceptance(reg.id, true);
-                              }
-                            }}
-                            className="bg-primary-blue/20 hover:bg-primary-blue/30"
                           >
-                            Accept
-                          </Button>
-                          <Button
-                            onClick={() => {
-                              //reject the registration
+                            <Button
+                              onClick={() => {
+                                const ok = window.confirm(
+                                  "Do you really want to accept this registration?",
+                                );
+                                if (ok) {
+                                  toggleAcceptance(reg.id, true);
+                                }
+                              }}
+                              className="bg-primary-blue/20 hover:bg-primary-blue/30"
+                            >
+                              Accept
+                            </Button>
+                            <Button
+                              onClick={() => {
+                                const ok = window.confirm(
+                                  "Do you really want to reject this registration?",
+                                );
+                                if (ok) {
+                                  toggleAcceptance(reg.id, false);
+                                }
+                              }}
+                              className="bg-red-500 hover:bg-red-600"
+                            >
+                              Reject
+                            </Button>
+                          </TableCell>
+                        )}
 
-                              //show a confirmation
-                              const ok = window.confirm(
-                                "Do you really want to reject this registration?",
-                              );
-
-                              if (ok) {
-                                toggleAcceptance(reg.id, false);
-                              }
-                            }}
-                            className="bg-red-500 hover:bg-red-600"
-                          >
-                            Reject
-                          </Button>
-                        </TableCell>
                         <TableCell className="text-gray-300 font-medium">
                           {reg.team_name}
                         </TableCell>
@@ -259,7 +273,38 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
       </motion.div>
-      <Toaster /> {/* Toaster component to show the toast messages */}
+      {!admin && currentUserRegistration && (
+        <motion.div
+          className={`p-4 rounded-lg mt-6 ${
+            currentUserRegistration.accepted === true
+              ? "bg-green-600 text-green-100"
+              : currentUserRegistration.accepted === false
+                ? "bg-red-600 text-red-100"
+                : "bg-gray-600 text-gray-100"
+          }`}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          {currentUserRegistration.accepted === true && (
+            <p className="font-semibold">
+              Congratulations! Your registration was accepted, you will be
+              contacted by the organizers soon.
+            </p>
+          )}
+          {currentUserRegistration.accepted === false && (
+            <p className="font-semibold">
+              We&lsquo;re sorry, your registration was not accepted.
+            </p>
+          )}
+          {currentUserRegistration.accepted === null && (
+            <p className="font-semibold">
+              Your registration is under review. Please check back later.
+            </p>
+          )}
+        </motion.div>
+      )}
+      <Toaster />
     </div>
   );
 }
