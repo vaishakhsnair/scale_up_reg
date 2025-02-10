@@ -15,6 +15,7 @@ import { motion } from "framer-motion";
 import { Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast, Toaster } from "react-hot-toast"; // import toast and Toaster
+// modal for confirmation
 
 type Registration = {
   id: number;
@@ -29,12 +30,49 @@ type Registration = {
   }[];
   abstract: string;
   user_id: string;
+  accepted: boolean | null;
 };
 
 export default function AdminDashboard() {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAuthorized, setIsAuthorized] = useState(false);
+  const [admin, setIsAdmin] = useState(false);
+
+  const fetchRegistrations = async () => {
+    const { data, error } = await supabase
+      .from("registration")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching registrations:", error);
+      toast.error("Failed to load registrations"); // Display error toast
+    } else {
+      setRegistrations(data || []);
+    }
+    setLoading(false);
+  };
+
+  async function toggleAcceptance(id: number, accept: boolean) {
+    //accept the registration
+    const { data, error } = await supabase
+      .from("registration")
+      .update({ accepted: accept })
+      .eq("id", id);
+
+    if (error) {
+      console.error("Error updating registration:", error);
+      toast.error("Failed to accept registration"); // Display error toast
+    } else {
+      toast.success(
+        `Registration ${accept ? "Accepted" : "Rejected"} successfully`,
+      ); // Display
+
+      // update the registrations list
+      fetchRegistrations();
+    }
+  }
 
   useEffect(() => {
     const checkAdminAuth = async () => {
@@ -48,27 +86,24 @@ export default function AdminDashboard() {
       }
 
       setIsAuthorized(true);
+
+      const { data: userData, error } = await supabase
+        .from("users")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+
+      if (error || userData?.role !== "admin") {
+        return;
+      }
+
+      setIsAdmin(true);
     };
 
     checkAdminAuth();
   }, []);
 
   useEffect(() => {
-    const fetchRegistrations = async () => {
-      const { data, error } = await supabase
-        .from("registration")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) {
-        console.error("Error fetching registrations:", error);
-        toast.error("Failed to load registrations"); // Display error toast
-      } else {
-        setRegistrations(data || []);
-      }
-      setLoading(false);
-    };
-
     fetchRegistrations();
   }, []);
 
@@ -119,6 +154,7 @@ export default function AdminDashboard() {
                 <Table className="border-collapse w-full">
                   <TableHeader>
                     <TableRow className="bg-primary-purple/10">
+                      <TableHead className="text-gray-200">Accept</TableHead>
                       <TableHead className="text-gray-200">Team Name</TableHead>
                       <TableHead className="text-gray-200">Members</TableHead>
                       <TableHead className="text-gray-200">
@@ -132,8 +168,48 @@ export default function AdminDashboard() {
                     {registrations.map((reg) => (
                       <TableRow
                         key={reg.id}
-                        className="border-b border-primary-blue/10 hover:bg-primary-purple/5"
+                        className={`border-b border-primary-blue/10
+                          hover:bg-primary-purple/5
+                          ${reg.accepted == null ? " " : reg.accepted ? "bg-green-950 hover:bg-green-950" : "bg-red-950 hover:bg-red-950"}
+                          `}
                       >
+                        <TableCell
+                          className="text-gray-300 font-medium flex flex-col
+                          gap-2 items-center justify-center  "
+                        >
+                          <Button
+                            onClick={() => {
+                              //accept the registration
+                              //show a confirmation
+                              const ok = window.confirm(
+                                "Do you really want to accept this registration?",
+                              );
+                              if (ok) {
+                                toggleAcceptance(reg.id, true);
+                              }
+                            }}
+                            className="bg-primary-blue/20 hover:bg-primary-blue/30"
+                          >
+                            Accept
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              //reject the registration
+
+                              //show a confirmation
+                              const ok = window.confirm(
+                                "Do you really want to reject this registration?",
+                              );
+
+                              if (ok) {
+                                toggleAcceptance(reg.id, false);
+                              }
+                            }}
+                            className="bg-red-500 hover:bg-red-600"
+                          >
+                            Reject
+                          </Button>
+                        </TableCell>
                         <TableCell className="text-gray-300 font-medium">
                           {reg.team_name}
                         </TableCell>
